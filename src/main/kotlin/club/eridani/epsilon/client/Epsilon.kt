@@ -20,7 +20,15 @@ import club.eridani.epsilon.client.util.graphics.ResolutionHelper
 import club.eridani.epsilon.client.util.graphics.font.renderer.IconRenderer
 import club.eridani.epsilon.client.util.graphics.font.renderer.MainFontRenderer
 import club.eridani.epsilon.client.util.graphics.shaders.WindowBlurShader
+import net.minecraftforge.fml.common.Mod
 import org.lwjgl.opengl.Display
+
+@Suppress("UNUSED_PARAMETER")
+@Mod(
+    modid = Epsilon.MOD_ID,
+    name = Epsilon.MOD_NAME,
+    version = Epsilon.VERSION,
+)
 
 object Epsilon {
 
