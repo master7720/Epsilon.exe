@@ -100,7 +100,7 @@ object Epsilon {
         isReady = true
     }
 
-    private fun register(obj: Any) {
+    fun register(obj: Any) {
         EventBus.subscribe(obj)
     }
 

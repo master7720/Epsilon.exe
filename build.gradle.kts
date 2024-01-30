@@ -1,18 +1,14 @@
 import net.minecraftforge.gradle.userdev.UserDevExtension
-import org.jetbrains.kotlin.daemon.common.usedMemory
+import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.spongepowered.asm.gradle.plugins.MixinExtension
 
-val modGroup: String by extra
-val modVersion: String by extra
-
-group = modGroup
-version = modVersion
+group = "club.epsilon"
+version = "4.0"
 
 buildscript {
     repositories {
-        mavenCentral()
-        maven("https://maven.minecraftforge.net/")
-        maven("https://repo.spongepowered.org/maven/")
+        maven("https://files.minecraftforge.net/maven")
+        maven("https://repo.spongepowered.org/repository/maven-public/")
     }
 
     dependencies {
@@ -22,8 +18,10 @@ buildscript {
 }
 
 plugins {
+    idea
     java
-    kotlin("jvm") version "1.6.0"
+    id("org.jetbrains.kotlin.jvm") version "1.6.0"
+    id("java-library")
 }
 
 apply {
@@ -33,31 +31,39 @@ apply {
 
 repositories {
     mavenCentral()
-    maven("https://impactdevelopment.github.io/maven/")
     maven("https://repo.spongepowered.org/repository/maven-public/")
     maven("https://jitpack.io")
+    maven("https://impactdevelopment.github.io/maven/")
 }
 
+val library: Configuration by configurations.creating
+
+val kotlinxCoroutineVersion: String by project
+val minecraftVersion: String by project
+val forgeVersion: String by project
+val mappingsChannel: String by project
+val mappingsVersion: String by project
+
 dependencies {
-    val kotlinVersion: String by project
-    val kotlinxCoroutineVersion: String by project
-
-    fun minecraft(dependencyNotation: Any): Dependency? =
-        "minecraft"(dependencyNotation)
-
-    fun jarOnly(dependencyNotation: Any) {
-        implementation(dependencyNotation)
+    // Jar packaging
+    fun ModuleDependency.exclude(moduleName: String): ModuleDependency {
+        return exclude(mapOf("module" to moduleName))
     }
 
-    fun ModuleDependency.exclude(moduleName: String) =
-        exclude(mapOf("module" to moduleName))
+    fun jarOnly(dependencyNotation: Any) {
+        library(dependencyNotation)
+    }
 
-    implementation(kotlin("stdlib", kotlinVersion))
-    implementation(kotlin("reflect", kotlinVersion))
-    implementation(kotlin("stdlib-jdk8", kotlinVersion))
+    // Forge
+    val minecraft = "minecraft"
+    minecraft("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
+
+    // Dependencies
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutineVersion")
-
-    minecraft("net.minecraftforge:forge:1.12.2-14.23.5.2860")
 
     implementation("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
         exclude("commons-io")
@@ -67,61 +73,61 @@ dependencies {
         exclude("log4j-core")
     }
 
-    implementation("org.reflections:reflections:0.9.12") {
+    annotationProcessor("org.spongepowered:mixin:0.8.2:processor") {
         exclude("gson")
-        exclude("guava")
     }
 
     implementation("club.minnced:java-discord-rpc:v2.0.2") {
         exclude("jna")
     }
 
-    implementation("org.joml:joml:1.10.1")
+    implementation("org.reflections:reflections:0.9.12") {
+        exclude("gson")
+        exclude("guava")
+    }
+
+    implementation("org.joml:joml:1.10.2")
+
+    implementation("org.apache.logging.log4j:log4j-api:2.17.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 
     implementation(fileTree("lib"))
 
     implementation("com.formdev:flatlaf:1.1.2")
     implementation("com.formdev:flatlaf-intellij-themes:1.1.2")
 
-
     implementation("com.github.cabaletta:baritone:1.2.14")
     jarOnly("cabaletta:baritone-api:1.2")
-
-    annotationProcessor("org.spongepowered:mixin:0.8.2:processor") {
-        exclude("gson")
-    }
-
 }
 
 configure<MixinExtension> {
-    defaultObfuscationEnv = "searge"
     add(sourceSets["main"], "mixins.epsilon.refmap.json")
 }
 
 configure<UserDevExtension> {
     mappings(
         mapOf(
-            "channel" to "stable",
-            "version" to "39-1.12"
+            "channel" to mappingsChannel,
+            "version" to mappingsVersion
         )
     )
 
     runs {
         create("client") {
             workingDirectory = project.file("run").path
+            ideaModule("${rootProject.name}.${project.name}.main")
 
             properties(
                 mapOf(
                     "forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
                     "forge.logging.console.level" to "info",
-                    "fml.coreMods.load" to "com.client.epsilon.launch.FMLCoreMod",
+                    "fml.coreMods.load" to "club.eridani.epsilon.client.EpsilonCoreMod",
                     "mixin.env.disableRefMap" to "true"
                 )
             )
         }
     }
 }
-
 
 tasks {
     compileJava {
@@ -133,8 +139,40 @@ tasks {
     compileKotlin {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xinline-classes")
+            freeCompilerArgs = listOf(
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xopt-in=kotlin.contracts.ExperimentalContracts",
+                "-Xlambdas=indy"
+            )
         }
     }
 
+    jar {
+        manifest {
+            attributes(
+                "Manifest-Version" to 1.0,
+                "MixinConfigs" to "mixins.epsilon.json",
+                "TweakClass" to "org.spongepowered.asm.launch.MixinTweaker",
+                "FMLCorePluginContainsFMLMod" to true,
+                "FMLCorePlugin" to "club.eridani.epsilon.client.EpsilonCoreMod",
+                "ForceLoadAsMod" to true
+            )
+        }
+
+        val regex = "baritone-1\\.2\\.\\d\\d\\.jar".toRegex()
+        from(
+            (configurations.runtimeClasspath.get() - configurations["minecraft"])
+                .filterNot {
+                    it.name.matches(regex)
+                }.map {
+                    if (it.isDirectory) it else zipTree(it)
+                }
+        )
+
+        from(
+            library.map {
+                if (it.isDirectory) it else zipTree(it)
+            }
+        )
+    }
 }
