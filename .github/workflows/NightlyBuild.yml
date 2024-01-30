@@ -3,7 +3,7 @@ name: NightlyBuild
 on:
     push:
         branches:
-            - dev
+            - main
     workflow_dispatch:
 
 jobs:
