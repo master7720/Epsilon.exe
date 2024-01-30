@@ -10,9 +10,9 @@ version = modVersion
 
 buildscript {
     repositories {
-        jcenter()
-        maven("https://files.minecraftforge.net/maven")
-        maven("https://repo.spongepowered.org/repository/maven-public/")
+        mavenCentral()
+        maven("https://maven.minecraftforge.net/")
+        maven("https://repo.spongepowered.org/maven/")
     }
 
     dependencies {
@@ -32,7 +32,6 @@ apply {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
     maven("https://impactdevelopment.github.io/maven/")
     maven("https://repo.spongepowered.org/repository/maven-public/")

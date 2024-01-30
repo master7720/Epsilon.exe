@@ -1,8 +1,5 @@
 package club.eridani.epsilon.client
 
-import club.eridani.epsilon.client.Epsilon.MOD_ID
-import club.eridani.epsilon.client.Epsilon.MOD_NAME
-import club.eridani.epsilon.client.Epsilon.VERSION
 import club.eridani.epsilon.client.config.ConfigManager
 import club.eridani.epsilon.client.event.EventBus
 import club.eridani.epsilon.client.event.ForgeAccessor
@@ -23,16 +20,8 @@ import club.eridani.epsilon.client.util.graphics.ResolutionHelper
 import club.eridani.epsilon.client.util.graphics.font.renderer.IconRenderer
 import club.eridani.epsilon.client.util.graphics.font.renderer.MainFontRenderer
 import club.eridani.epsilon.client.util.graphics.shaders.WindowBlurShader
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.lwjgl.opengl.Display
-import net.minecraftforge.fml.common.Mod
 
-@Mod(
-    modid = MOD_ID,
-    name = MOD_NAME,
-    version = VERSION
-)
 object Epsilon {
 
     const val MOD_NAME = "Epsilon"
@@ -50,10 +39,8 @@ object Epsilon {
 
     var isReady = false
 
-    @Suppress("UNUSED_PARAMETER")
-    @Mod.EventHandler
-    fun preInit(event: FMLPreInitializationEvent, value: Int) {
-        Logger.info("Pre initializing Epsilon with value: $value")
+    fun preInit() {
+        Logger.info("Pre initializing Epsilon")
         Display.setTitle("$MOD_NAME $VERSION")
         ModuleManager
         CommandManager
@@ -64,10 +51,8 @@ object Epsilon {
         Fonts
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    @Mod.EventHandler
-    fun postInit(event: FMLPostInitializationEvent, value: String) {
-        Logger.info("Post initializing Epsilon with value: $value")
+    fun postInit() {
+        Logger.info("Post initializing Epsilon")
         ConfigManager.loadAll(true)
         RootGUI.disable(notification = false, silent = true)
         HUDEditor.disable(notification = false, silent = true)
