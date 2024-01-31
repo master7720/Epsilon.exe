@@ -10,6 +10,8 @@ make it so the fonts render.
 
 update it to kotlin 1.9.20.
 
+fix GUI.
+
 # [ Credits ]
 
 [Devs](https://github.com/SpartanB312) the devs that made Epsilon.
