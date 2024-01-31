@@ -10,6 +10,9 @@ update it to kotlin 1.9.20.
 
 # [ Credits ]
 [Master7720](https://github.com/master7720)removed the auth and started the whole project.
+
 [198](https://github.com/ta-o666)fixed all known issues(huge thanks)
+
 [cryo](https://github.com/CrytoPal)fixed init going insane 
+
 [Autstin](https://github.com/The-Forecaster)helping with some parts of the build.gradle
