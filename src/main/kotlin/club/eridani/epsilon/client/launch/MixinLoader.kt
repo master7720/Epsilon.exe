@@ -19,7 +19,7 @@ object MixinLoader {
 
         MixinBootstrap.init()
         log.info("Initializing mixins")
-        Mixins.addConfigurations("mixins.epsilonloader.json", "mixins.baritone.json")
+        Mixins.addConfigurations("mixins.epsilon.json", "mixins.baritone.json")
         MixinEnvironment.getDefaultEnvironment().obfuscationContext = "searge"
         MixinEnvironment.getDefaultEnvironment().side = MixinEnvironment.Side.CLIENT
         log.info("Epsilon mixins initialized")

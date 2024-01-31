@@ -49,57 +49,6 @@ val jarLib: Configuration by configurations.creating {
 }
 
 dependencies {
-    /*
-    fun minecraft(dependencyNotation: Any): Dependency? =
-        "minecraft"(dependencyNotation)
-
-    fun jarOnly(dependencyNotation: Any) {
-        library(dependencyNotation)
-    }
-
-    fun ModuleDependency.exclude(moduleName: String) =
-        exclude(mapOf("module" to moduleName))
-
-    implementation(kotlin("stdlib", kotlinVersion))
-    implementation(kotlin("reflect", kotlinVersion))
-    implementation(kotlin("stdlib-jdk8", kotlinVersion))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutineVersion")
-
-    minecraft("net.minecraftforge:forge:1.12.2-14.23.5.2860")
-
-    implementation("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
-        exclude("commons-io")
-        exclude("gson")
-        exclude("guava")
-        exclude("launchwrapper")
-        exclude("log4j-core")
-    }
-
-    implementation("org.reflections:reflections:0.9.12") {
-        exclude("gson")
-        exclude("guava")
-    }
-
-    implementation("club.minnced:java-discord-rpc:v2.0.2") {
-        exclude("jna")
-    }
-
-    implementation("org.joml:joml:1.10.1")
-
-    implementation(fileTree("lib"))
-
-    implementation("com.formdev:flatlaf:1.1.2")
-    implementation("com.formdev:flatlaf-intellij-themes:1.1.2")
-
-
-    implementation("com.github.cabaletta:baritone:1.2.14")
-    jarOnly("cabaletta:baritone-api:1.2")
-
-    annotationProcessor("org.spongepowered:mixin:0.8.2:processor") {
-        exclude("gson")
-    }
-    */
-
     fun ModuleDependency.exclude(moduleName: String) =
         exclude(mapOf("module" to moduleName))
 

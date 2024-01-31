@@ -53,7 +53,11 @@ class Epsilon {
             ModuleManager
             CommandManager
             TextManager.readText()
-            TextManager.setText()
+            try {
+                TextManager.setText()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             MainFontRenderer
             IconRenderer
             Fonts

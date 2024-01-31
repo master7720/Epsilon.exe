@@ -12,7 +12,7 @@ class EpsilonCoreMod : IFMLLoadingPlugin {
     init
     {
         MixinBootstrap.init()
-        Mixins.addConfigurations("mixins.Epsilon.json")
+        Mixins.addConfigurations("mixins.epsilon.json")
         MixinEnvironment.getDefaultEnvironment().obfuscationContext = "searge"
         LogManager.getLogger("Epsilon").info("Epsilon mixins initialised.")
     }

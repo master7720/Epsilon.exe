@@ -3,11 +3,12 @@ package club.eridani.epsilon.client.language
 import club.eridani.epsilon.client.Epsilon
 import club.eridani.epsilon.client.module.setting.TextSetting
 import java.io.File
+import java.util.*
 
 @Suppress("NOTHING_TO_INLINE")
 object TextManager {
 
-    val registeredTexts = mutableListOf<TextUnit>()
+    val registeredTexts = Collections.synchronizedList(mutableListOf<TextUnit>())
 
     private val languages = listOf(
         InnerLanguage.English.standardName,
@@ -36,10 +37,9 @@ object TextManager {
 
     fun setText() {
         registeredTexts.forEach {
-            if (!it.set(currentLanguage)) {
-                if (!it.set(secondLanguage)) {
-                    it.set(InnerLanguage.English.standardName)
-                }
+            if (!it.set(currentLanguage)
+                && !it.set(secondLanguage)) {
+                it.set(InnerLanguage.English.standardName)
             }
         }
     }
