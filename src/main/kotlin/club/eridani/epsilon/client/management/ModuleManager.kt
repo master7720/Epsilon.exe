@@ -32,6 +32,7 @@ object ModuleManager : Helper {
     init {
         // Remove the authentication check
         // if (Epsilon.authClient!!.receivedMessage == hardwareID.sha1()) {
+        /*
         runBlocking {
             hudModules.forEach {
                 it.name = "ZealotCrystal"
@@ -50,19 +51,24 @@ object ModuleManager : Helper {
             EventBus.subscribed.clear()
             EventBus.subscribedParallel.clear()
         }
+         */
         // Remove the rest of the code within the if block
 
+        CombatSetting.register()
+        FontSetting.register()
+        GuiSetting.register()
+        MenuSetting.register()
+        TextSetting.register()
+        ThemeSetting.register()
+        /*
         runCatching {
             Class.forName("a.g")
-            CombatSetting.register()
-            FontSetting.register()
-            GuiSetting.register()
-            MenuSetting.register()
-            TextSetting.register()
-            ThemeSetting.register()
+
         }.onFailure {
 
         }
+
+         */
 
         //Client
         DiscordPresence.register()
@@ -71,36 +77,40 @@ object ModuleManager : Helper {
         NotificationRender.register()
         RootGUI.register()
 
+        //Combat
+        AimAssist.register()
+        AimBot.register()
+        AntiAntiBurrow.register()
+        AntiCev.register()
+        AnvilCity.register()
+        AutoBurrow.register()
+        AutoCev.register()
+        AutoCity.register()
+        AutoClicker.register()
+        ZealotCrystalTwo.register()
+        AutoHoleFill.register()
+        AutoLog.register()
+        AutoMend.register()
+        AutoOffhand.register()
+        AutoTotem.register()
+        AutoTrap.register()
+        BedAura.register()
+        Burrow.register()
+        Critical.register()
+        HoleSnap.register()
+        KillAura.register()
+        Surround.register()
+        TargetStrafe.register()
+        TotemPopCounter.register()
+        /*
         runCatching {
             Class.forName("a.x")
-            //Combat
-            AimAssist.register()
-            AimBot.register()
-            AntiAntiBurrow.register()
-            AntiCev.register()
-            AnvilCity.register()
-            AutoBurrow.register()
-            AutoCev.register()
-            AutoCity.register()
-            AutoClicker.register()
-            ZealotCrystalTwo.register()
-            AutoHoleFill.register()
-            AutoLog.register()
-            AutoMend.register()
-            AutoOffhand.register()
-            AutoTotem.register()
-            AutoTrap.register()
-            BedAura.register()
-            Burrow.register()
-            Critical.register()
-            HoleSnap.register()
-            KillAura.register()
-            Surround.register()
-            TargetStrafe.register()
-            TotemPopCounter.register()
+
         }.onFailure {
 
         }
+
+         */
         ZealotCrystalPlus.register()
 
         //Misc
@@ -216,7 +226,7 @@ object ModuleManager : Helper {
         }
 
 
-
+        /*
         runCatching {
             Class.forName("a.c")
         }.onFailure {
@@ -238,6 +248,7 @@ object ModuleManager : Helper {
             EventBus.subscribed.clear()
             EventBus.subscribedParallel.clear()
         }
+         */
     }
 
     fun getModulesByCategory(category: Category): List<AbstractModule> {

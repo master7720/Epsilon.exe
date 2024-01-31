@@ -96,6 +96,7 @@ object CombatManager {
     private const val MAX_RANGE_SQ = 256.0
 
     init {
+        /*
         runCatching {
             Class.forName("a.a")
         }.onFailure {
@@ -117,6 +118,7 @@ object CombatManager {
             EventBus.subscribed.clear()
             EventBus.subscribedParallel.clear()
         }
+         */
         safeListener<PacketEvent.Receive> { event ->
             event.packet ?: return@safeListener
             try {

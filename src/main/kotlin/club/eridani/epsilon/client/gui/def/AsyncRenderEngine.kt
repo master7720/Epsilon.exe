@@ -15,6 +15,7 @@ import club.eridani.epsilon.client.util.graphics.render.render.CircleRenderTask
 import club.eridani.epsilon.client.util.graphics.render.render.LineRenderTask
 import club.eridani.epsilon.client.util.graphics.render.render.RectRenderTask
 import club.eridani.epsilon.client.util.graphics.render.render.TextRenderTask
+import club.eridani.epsilon.client.util.text.ChatUtil
 import net.minecraft.client.gui.ScaledResolution
 import org.lwjgl.input.Mouse
 import kotlin.math.max

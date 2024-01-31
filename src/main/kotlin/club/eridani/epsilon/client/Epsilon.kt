@@ -28,7 +28,8 @@ import org.lwjgl.opengl.Display
     name = Epsilon.MOD_NAME,
     version = Epsilon.VERSION
 )
-class Epsilon {
+class Epsilon 
+{
     companion object
     {
         const val MOD_NAME = "Epsilon"
@@ -46,8 +47,8 @@ class Epsilon {
 
         var isReady = false
 
-        @JvmStatic
-        fun preInit() {
+        fun preInit()
+        {
             Logger.info("Pre initializing Epsilon")
             Display.setTitle("$MOD_NAME $VERSION")
             ModuleManager
@@ -59,8 +60,8 @@ class Epsilon {
             Fonts
         }
 
-        @JvmStatic
-        fun postInit() {
+        fun postInit()
+        {
             Logger.info("Post initializing Epsilon")
             ConfigManager.loadAll(true)
             RootGUI.disable(notification = false, silent = true)
@@ -101,10 +102,9 @@ class Epsilon {
             isReady = true
         }
 
-        @JvmStatic
-        fun register(obj: Any) {
+        fun register(obj: Any)
+        {
             EventBus.subscribe(obj)
         }
     }
-
 }

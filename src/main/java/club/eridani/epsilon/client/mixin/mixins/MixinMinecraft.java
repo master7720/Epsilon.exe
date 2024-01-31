@@ -137,7 +137,7 @@ public class MixinMinecraft {
             )
     )
     private void onPreInit(CallbackInfo ci) {
-        Epsilon.preInit();
+        Epsilon.Companion.preInit();
     }
 
     @Inject(method = "init",
@@ -148,7 +148,7 @@ public class MixinMinecraft {
             )
     )
     private void onPostInit(CallbackInfo ci) {
-        Epsilon.postInit();
+        Epsilon.Companion.postInit();
     }
 
 

@@ -15,6 +15,7 @@ import club.eridani.epsilon.client.module.setting.GuiSetting
 import club.eridani.epsilon.client.util.TickTimer
 import club.eridani.epsilon.client.util.Timer
 import club.eridani.epsilon.client.util.graphics.AnimationUtil
+import club.eridani.epsilon.client.util.text.ChatUtil
 import net.minecraft.util.math.MathHelper
 import java.util.*
 import kotlin.math.max

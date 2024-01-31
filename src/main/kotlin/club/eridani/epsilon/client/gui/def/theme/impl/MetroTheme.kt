@@ -29,6 +29,7 @@ import club.eridani.epsilon.client.util.graphics.font.renderer.MainFontRenderer
 import club.eridani.epsilon.client.util.math.Vec2d
 import club.eridani.epsilon.client.util.math.Vec2f
 import club.eridani.epsilon.client.gui.def.components.elements.*
+import club.eridani.epsilon.client.util.text.ChatUtil
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.math.MathHelper
 import org.lwjgl.opengl.GL11

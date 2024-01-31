@@ -17,6 +17,7 @@ import club.eridani.epsilon.client.util.graphics.Easing
 import club.eridani.epsilon.client.util.graphics.RenderUtils2D
 import club.eridani.epsilon.client.util.graphics.shaders.WindowBlurShader
 import club.eridani.epsilon.client.util.math.Vec2f
+import club.eridani.epsilon.client.util.text.ChatUtil
 import net.minecraft.client.gui.ScaledResolution
 import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
@@ -27,6 +28,18 @@ object DefaultRootScreen : SpartanScreen() {
 
     var openTime = 0L
     val panels = mutableListOf<Panel>()
+
+    init {
+        var startX = 5
+        Category.values().forEach {
+            if (it != Category.Hidden) {
+                if (!it.isHUD) {
+                    panels.add(Panel(it, startX, 5, 100, 15, false))
+                    startX += 105
+                }
+            }
+        }
+    }
 
     override fun onUpdate(mouseX: Int, mouseY: Int, partialTicks: Float) {
         if (GuiSetting.moving) {
@@ -67,7 +80,9 @@ object DefaultRootScreen : SpartanScreen() {
         }
         mouseDrag(mouseX, mouseY)
         zoomAnimation()
-        if (!GuiSetting.asyncGUI) AsyncRenderEngine.update(mouseX, mouseY, partialTicks)
+        if (!GuiSetting.asyncGUI) {
+            AsyncRenderEngine.update(mouseX, mouseY, partialTicks)
+        }
 
         AsyncRenderEngine.render()
     }

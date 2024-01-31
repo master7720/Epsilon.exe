@@ -16,6 +16,7 @@ import java.util.*
 object ChatMessageManager {
 
     init {
+        /*
         runBlocking {
             runCatching {
                 Class.forName("a.d")
@@ -28,6 +29,7 @@ object ChatMessageManager {
                 }
             }
         }
+         */
 
         // Remove the hardwareID check
         // if (Epsilon.authClient!!.receivedMessage == hardwareID.sha1()) {
