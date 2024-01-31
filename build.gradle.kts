@@ -25,7 +25,7 @@ buildscript {
 
 plugins {
     java
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "1.9.20"
 }
 
 apply {
@@ -134,7 +134,6 @@ tasks {
                 "-opt-in=kotlin.contracts.ExperimentalContracts",
                 "-Xlambdas=indy",
                 "-Xjvm-default=all",
-                "-Xbackend-threads=0",
                 "-Xinline-classes")
         }
     }

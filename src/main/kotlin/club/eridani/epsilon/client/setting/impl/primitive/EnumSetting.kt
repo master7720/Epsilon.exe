@@ -12,7 +12,7 @@ class EnumSetting<T : Enum<T>>(
     description: String = ""
 ) : MutableSetting<T>(name, value, moduleName, description, visibility) {
 
-    private val enumClass: Class<T> = value.declaringClass
+    private val enumClass: Class<T> = value.declaringJavaClass
     private val enumValues: Array<out T> = enumClass.enumConstants
 
     fun nextValue() {

@@ -31,11 +31,11 @@ object Utils : Helper {
         return mc.world.getBlock(pos).canCollideCheck(mc.world.getBlockState(pos), false)
     }
 
-    inline fun <E : Enum<E>> E.next(): E = declaringClass.enumConstants.run {
+    inline fun <E : Enum<E>> E.next(): E = declaringJavaClass.enumConstants.run {
         get((ordinal + 1) % size)
     }
 
-    inline fun <E : Enum<E>> E.last(): E = declaringClass.enumConstants.run {
+    inline fun <E : Enum<E>> E.last(): E = declaringJavaClass.enumConstants.run {
         get(if (ordinal == 0) size - 1 else ordinal - 1)
     }
 

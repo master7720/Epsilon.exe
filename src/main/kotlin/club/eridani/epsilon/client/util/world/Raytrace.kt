@@ -52,6 +52,7 @@ fun World.rayTrace(
         RayTraceAction.Null -> return null
         RayTraceAction.Calc -> startBlockState.raytrace(this, blockPos, currentX, currentY, currentZ, endX, endY, endZ)?.let { return it }
         is RayTraceAction.Result -> return action.rayTraceResult
+        RayTraceAction.Skip -> return null //bad way to fix this idc
     }
 
     // Int end position
@@ -135,6 +136,7 @@ fun World.rayTrace(
             RayTraceAction.Null -> return null
             RayTraceAction.Calc -> blockState.raytrace(this, blockPos, currentX, currentY, currentZ, endX, endY, endZ)?.let { return it }
             is RayTraceAction.Result -> return action.rayTraceResult
+            RayTraceAction.Skip -> return null //bad way to fix this idc
         }
     }
 
