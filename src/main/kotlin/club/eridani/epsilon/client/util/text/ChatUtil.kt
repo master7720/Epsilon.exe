@@ -36,13 +36,13 @@ object ChatUtil : Helper {
 
     fun sendNoSpamMessage(message: String, messageID: Int) {
         sendNoSpamRawChatMessage(
-            SECTION_SIGN + "7[" + SECTION_SIGN + "9" + Epsilon.MOD_NAME + SECTION_SIGN + "7] " + SECTION_SIGN + "r" + message,
+            SECTION_SIGN + "7[" + SECTION_SIGN + "9" + Epsilon.Companion.MOD_NAME + SECTION_SIGN + "7] " + SECTION_SIGN + "r" + message,
             messageID
         )
     }
 
     fun sendNoSpamMessage(message: String) {
-        sendNoSpamRawChatMessage(SECTION_SIGN + "7[" + SECTION_SIGN + "9" + Epsilon.MOD_NAME + SECTION_SIGN + "7] " + SECTION_SIGN + "r" + message)
+        sendNoSpamRawChatMessage(SECTION_SIGN + "7[" + SECTION_SIGN + "9" + Epsilon.Companion.MOD_NAME + SECTION_SIGN + "7] " + SECTION_SIGN + "r" + message)
     }
 
     fun sendNoSpamMessage(messages: Array<String?>) {
@@ -89,7 +89,7 @@ object ChatUtil : Helper {
     }
 
     fun printChatMessage(message: String) {
-        printRawChatMessage(SECTION_SIGN + "7[" + SECTION_SIGN + "9" + Epsilon.MOD_NAME + SECTION_SIGN + "7] " + SECTION_SIGN + "r" + message)
+        printRawChatMessage(SECTION_SIGN + "7[" + SECTION_SIGN + "9" + Epsilon.Companion.MOD_NAME + SECTION_SIGN + "7] " + SECTION_SIGN + "r" + message)
     }
 
     fun printErrorChatMessage(message: String) {

@@ -20,80 +20,91 @@ import club.eridani.epsilon.client.util.graphics.ResolutionHelper
 import club.eridani.epsilon.client.util.graphics.font.renderer.IconRenderer
 import club.eridani.epsilon.client.util.graphics.font.renderer.MainFontRenderer
 import club.eridani.epsilon.client.util.graphics.shaders.WindowBlurShader
+import net.minecraftforge.fml.common.Mod
 import org.lwjgl.opengl.Display
 
-object Epsilon {
+@Mod(
+    modid = Epsilon.MOD_ID,
+    name = Epsilon.MOD_NAME,
+    version = Epsilon.VERSION
+)
+class Epsilon {
+    companion object
+    {
+        const val MOD_NAME = "Epsilon"
+        const val MOD_ID = "epsilon"
+        const val VERSION = "4.0u220529"
 
-    const val MOD_NAME = "Epsilon"
-    const val MOD_ID = "epsilon"
-    const val VERSION = "4.0u220529"
+        const val INFO = "$MOD_NAME Build $VERSION - Epsilon Release"
 
-    const val INFO = "$MOD_NAME Build $VERSION - Epsilon Release"
+        const val DEFAULT_COMMAND_PREFIX = "."
+        const val DEFAULT_CONFIG_PATH = "Epsilon/"
 
-    const val DEFAULT_COMMAND_PREFIX = "."
-    const val DEFAULT_CONFIG_PATH = "Epsilon/"
+        val mainThread: Thread = Thread.currentThread().also {
+            it.priority = Thread.MAX_PRIORITY
+        }
 
-    val mainThread: Thread = Thread.currentThread().also {
-        it.priority = Thread.MAX_PRIORITY
-    }
+        var isReady = false
 
-    var isReady = false
+        @JvmStatic
+        fun preInit() {
+            Logger.info("Pre initializing Epsilon")
+            Display.setTitle("$MOD_NAME $VERSION")
+            ModuleManager
+            CommandManager
+            TextManager.readText()
+            TextManager.setText()
+            MainFontRenderer
+            IconRenderer
+            Fonts
+        }
 
-    fun preInit() {
-        Logger.info("Pre initializing Epsilon")
-        Display.setTitle("$MOD_NAME $VERSION")
-        ModuleManager
-        CommandManager
-        TextManager.readText()
-        TextManager.setText()
-        MainFontRenderer
-        IconRenderer
-        Fonts
-    }
+        @JvmStatic
+        fun postInit() {
+            Logger.info("Post initializing Epsilon")
+            ConfigManager.loadAll(true)
+            RootGUI.disable(notification = false, silent = true)
+            HUDEditor.disable(notification = false, silent = true)
+            ThemeContainer
 
-    fun postInit() {
-        Logger.info("Post initializing Epsilon")
-        ConfigManager.loadAll(true)
-        RootGUI.disable(notification = false, silent = true)
-        HUDEditor.disable(notification = false, silent = true)
-        ThemeContainer
+            register(WindowBlurShader)
+            register(SpartanCore)
+            register(TpsCalculator)
+            register(ResolutionHelper)
+            register(ScaleHelper)
+            register(ProjectionUtils)
+            register(RenderUtils3D)
 
-        register(WindowBlurShader)
-        register(SpartanCore)
-        register(TpsCalculator)
-        register(ResolutionHelper)
-        register(ScaleHelper)
-        register(ProjectionUtils)
-        register(RenderUtils3D)
+            register(ChatMessageManager)
+            register(CombatManager)
+            register(CommandManager)
+            register(DisplayManager)
+            register(EntityManager)
+            register(FriendManager)
+            register(GUIManager)
+            register(HoleManager)
+            register(HotbarManager)
+            register(InputManager)
+            register(InventoryTaskManager)
+            register(PlayerPacketManager)
+            register(ModuleManager)
+            register(NotificationManager)
+            register(TimerManager)
+            register(TotemPopManager)
 
-        register(ChatMessageManager)
-        register(CombatManager)
-        register(CommandManager)
-        register(DisplayManager)
-        register(EntityManager)
-        register(FriendManager)
-        register(GUIManager)
-        register(HoleManager)
-        register(HotbarManager)
-        register(InputManager)
-        register(InventoryTaskManager)
-        register(PlayerPacketManager)
-        register(ModuleManager)
-        register(NotificationManager)
-        register(TimerManager)
-        register(TotemPopManager)
+            ForgeAccessor.subscribe()
 
-        ForgeAccessor.subscribe()
+            DisplayManager.setIcon(DisplayManager.Icon.IE)
 
-        DisplayManager.setIcon(DisplayManager.Icon.IE)
+            AsyncRenderEngine.init()
 
-        AsyncRenderEngine.init()
+            isReady = true
+        }
 
-        isReady = true
-    }
-
-    private fun register(obj: Any) {
-        EventBus.subscribe(obj)
+        @JvmStatic
+        fun register(obj: Any) {
+            EventBus.subscribe(obj)
+        }
     }
 
 }

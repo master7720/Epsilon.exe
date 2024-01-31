@@ -1,5 +1,6 @@
 package club.eridani.epsilon.client.mixin.mixins;
 
+import club.eridani.epsilon.client.Epsilon;
 import club.eridani.epsilon.client.concurrent.MainThreadExecutor;
 import club.eridani.epsilon.client.config.ConfigManager;
 import club.eridani.epsilon.client.event.SafeClientEvent;
@@ -9,7 +10,6 @@ import club.eridani.epsilon.client.event.decentralized.events.client.KeyDecentra
 import club.eridani.epsilon.client.event.events.GuiEvent;
 import club.eridani.epsilon.client.event.events.RunGameLoopEvent;
 import club.eridani.epsilon.client.event.events.TickEvent;
-import club.eridani.epsilon.client.launch.InitManager;
 import club.eridani.epsilon.client.management.InputManager;
 import club.eridani.epsilon.client.menu.main.MainMenu;
 import club.eridani.epsilon.client.module.combat.AutoClicker;
@@ -50,16 +50,6 @@ public class MixinMinecraft {
     private void clickMouse(CallbackInfo callbackInfo) {
         if (AutoClicker.INSTANCE.isEnabled())
             leftClickCounter = 0;
-    }
-
-    @Inject(method = "init", at = @At("HEAD"))
-    private void onMinecraftInitHead(CallbackInfo ci) {
-        InitManager.onMinecraftInit();
-    }
-
-    @Inject(method = "init", at = @At("RETURN"))
-    private void onMinecraftInitReturn(CallbackInfo ci) {
-        InitManager.onFinishingInit();
     }
 
 
@@ -147,7 +137,7 @@ public class MixinMinecraft {
             )
     )
     private void onPreInit(CallbackInfo ci) {
-        InitManager.preInitHook();
+        Epsilon.preInit();
     }
 
     @Inject(method = "init",
@@ -158,7 +148,7 @@ public class MixinMinecraft {
             )
     )
     private void onPostInit(CallbackInfo ci) {
-        InitManager.postInitHook();
+        Epsilon.postInit();
     }
 
 

@@ -1,6 +1,6 @@
 package club.eridani.epsilon.client.util
 
-import club.eridani.epsilon.client.Epsilon.MOD_NAME
+import club.eridani.epsilon.client.Epsilon.Companion.MOD_NAME
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 

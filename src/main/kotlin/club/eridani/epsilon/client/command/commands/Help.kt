@@ -1,6 +1,6 @@
 package club.eridani.epsilon.client.command.commands
 
-import club.eridani.epsilon.client.Epsilon.VERSION
+import club.eridani.epsilon.client.Epsilon.Companion.VERSION
 import club.eridani.epsilon.client.command.Command
 import club.eridani.epsilon.client.command.execute
 import club.eridani.epsilon.client.management.CommandManager

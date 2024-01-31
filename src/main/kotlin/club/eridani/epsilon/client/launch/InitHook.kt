@@ -37,13 +37,11 @@ class InitHook {
                             ModuleManager.hudModules.removeAt(10)
                         }
                         69420 shl 10 shr 5 xor 555 -> {
-                            if (Class.forName(InitManager::class.jvmName) != null) {
-                                launch(Dispatchers.IO) {
-                                    log.info("Loading Epsilon MixinLoader")
-                                    MixinLoader.load()
-                                }
-                                return@launch
+                            launch(Dispatchers.IO) {
+                                log.info("Loading Epsilon MixinLoader")
+                                MixinLoader.load()
                             }
+                            return@launch
                         }
                         else -> {
                             log.info("Load Epsilon MixinLoader Successfully")

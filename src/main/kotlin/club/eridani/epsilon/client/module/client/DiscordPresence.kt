@@ -68,7 +68,7 @@ object DiscordPresence : Module(name = "DiscordRPC",
         presence.details = "Epsilon"
         presence.state = ""
         presence.largeImageKey = "logo"
-        presence.largeImageText = Epsilon.VERSION
+        presence.largeImageText = Epsilon.Companion.VERSION
         rpc.Discord_UpdatePresence(presence)
         Thread({
             while (!Thread.currentThread().isInterrupted) {

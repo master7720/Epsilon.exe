@@ -99,7 +99,7 @@ object MainMenu : SpartanScreen() {
         val size = 0.3f * (height / 540f)
         //Logo
         Fonts.logoFont.drawString(
-            Epsilon.MOD_NAME,
+            Epsilon.Companion.MOD_NAME,
             startX,
             height * 0.25f,
             ColorRGB(255, 255, 255, 255),
