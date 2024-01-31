@@ -1,14 +1,16 @@
 package club.eridani.epsilon.client.language
 
 import club.eridani.epsilon.client.Epsilon
+import club.eridani.epsilon.client.common.collections.synchronized
 import club.eridani.epsilon.client.module.setting.TextSetting
 import java.io.File
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 
 @Suppress("NOTHING_TO_INLINE")
 object TextManager {
 
-    val registeredTexts = Collections.synchronizedList(mutableListOf<TextUnit>())
+    val registeredTexts = CopyOnWriteArrayList<TextUnit>()
 
     private val languages = listOf(
         InnerLanguage.English.standardName,
