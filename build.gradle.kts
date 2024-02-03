@@ -1,13 +1,14 @@
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.spongepowered.asm.gradle.plugins.MixinExtension
-import javax.security.auth.login.Configuration
 
-val library: Configuration by configurations.creating
+val library: Configuration by project
 val kotlinVersion: String by project
 val kotlinxCoroutineVersion: String by project
 val modGroup: String by project
 val modVersion: String by project
 val kmogusVersion: String by project
+val minecraftVersion: String by project
+val forgeVersion: String by project
 
 group = modGroup
 version = modVersion
@@ -15,9 +16,10 @@ version = modVersion
 buildscript {
     repositories {
         mavenCentral()
-        maven("https://maven.minecraftforge.net/")
-        maven("https://repo.spongepowered.org/maven/")
         maven("https://maven.luna5ama.dev/")
+        maven("https://repo.spongepowered.org/repository/maven-public/")
+        maven("https://jitpack.io/")
+        maven("https://impactdevelopment.github.io/maven/")
     }
 
     dependencies {
@@ -27,8 +29,11 @@ buildscript {
 }
 
 plugins {
+    idea
     java
-    kotlin("jvm") version "1.9.20"
+    kotlin("jvm")
+    id("net.minecraftforge.gradle")
+    id("com.google.devtools.ksp")
     id("dev.luna5ama.kmogus-struct-plugin") apply false
 }
 
@@ -56,11 +61,12 @@ dependencies {
     fun ModuleDependency.exclude(moduleName: String) =
         exclude(mapOf("module" to moduleName))
 
-    "minecraft"("net.minecraftforge:forge:1.12.2-14.23.5.2860")
+    library("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
 
-    library(kotlin("stdlib", kotlinVersion))
-    library(kotlin("reflect", kotlinVersion))
-    library(kotlin("stdlib-jdk8", kotlinVersion))
+    library(kotlin("org.jetbrains.kotlin-reflect", kotlinVersion))
+    library("org.jetbrains.kotlin:kotlin-stdlib")
+    library("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
+    library("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     library("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutineVersion")
 
     library("dev.luna5ama:kmogus-core:$kmogusVersion")
@@ -68,6 +74,8 @@ dependencies {
     library(project(":structs"))
 
     library("dev.fastmc:fastmc-common:1.1-SNAPSHOT:java8")
+
+    library("org.spongepowered:mixin:0.7.11-SNAPSHOT")
 
     library("org.joml:joml:1.10.5")
     library(fileTree("lib"))
