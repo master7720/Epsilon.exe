@@ -10,9 +10,12 @@ import club.eridani.epsilon.client.event.decentralized.events.client.KeyDecentra
 import club.eridani.epsilon.client.event.events.GuiEvent;
 import club.eridani.epsilon.client.event.events.RunGameLoopEvent;
 import club.eridani.epsilon.client.event.events.TickEvent;
+import club.eridani.epsilon.client.event.events.WorldEvent;
 import club.eridani.epsilon.client.management.InputManager;
+import club.eridani.epsilon.client.management.WorldManager;
 import club.eridani.epsilon.client.menu.main.MainMenu;
 import club.eridani.epsilon.client.module.combat.AutoClicker;
+import club.eridani.epsilon.client.module.setting.MenuSetting;
 import club.eridani.epsilon.client.util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -55,12 +58,12 @@ public class MixinMinecraft {
 
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V", at = @At("HEAD"))
     public void onUnload(WorldClient worldClientIn, String loadingMessage, CallbackInfo info) {
-        /*
+
         if (worldClientIn != null) {
             if (worldClientIn.isRemote) worldClientIn.removeEventListener(WorldManager.INSTANCE);
             WorldEvent.Unload.INSTANCE.post();
         }
-         */
+
     }
 
     @Inject(method = "getLimitFramerate", at = @At("HEAD"), cancellable = true)
@@ -154,7 +157,7 @@ public class MixinMinecraft {
 
     @Inject(method = "displayGuiScreen", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;currentScreen:Lnet/minecraft/client/gui/GuiScreen;", shift = At.Shift.AFTER))
     private void displayGuiScreen(CallbackInfo callbackInfo) {
-//        if (MenuSetting.INSTANCE.isEnabled()) {
+        if (MenuSetting.INSTANCE.isEnabled()) {
             if (currentScreen instanceof net.minecraft.client.gui.GuiMainMenu || (currentScreen != null && currentScreen.getClass().getName().startsWith("net.labymod") && currentScreen.getClass().getSimpleName().equals("ModGuiMainMenu"))) {
                 currentScreen = MainMenu.INSTANCE;
 
@@ -162,7 +165,7 @@ public class MixinMinecraft {
                 currentScreen.setWorldAndResolution(Minecraft.getMinecraft(), scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
                 skipRenderWorld = false;
             }
-//        }
+        }
     }
 
     @ModifyVariable(method = "displayGuiScreen", at = @At("HEAD"), ordinal = 0, argsOnly = true)

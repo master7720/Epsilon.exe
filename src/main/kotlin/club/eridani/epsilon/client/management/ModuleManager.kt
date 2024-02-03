@@ -30,29 +30,6 @@ object ModuleManager : Helper {
     val hudModules = mutableListOf<HUDModule>()
 
     init {
-        // Remove the authentication check
-        // if (Epsilon.authClient!!.receivedMessage == hardwareID.sha1()) {
-        /*
-        runBlocking {
-            hudModules.forEach {
-                it.name = "ZealotCrystal"
-            }
-            modules.forEach {
-                it.name = "ZealotCrystal"
-            }
-
-            runBlocking {
-                Wrapper.mc.world = null
-                Wrapper.mc.player = null
-            }
-
-            EventBus.registered.clear()
-            EventBus.registeredParallel.clear()
-            EventBus.subscribed.clear()
-            EventBus.subscribedParallel.clear()
-        }
-         */
-        // Remove the rest of the code within the if block
 
         CombatSetting.register()
         FontSetting.register()
@@ -60,17 +37,9 @@ object ModuleManager : Helper {
         MenuSetting.register()
         TextSetting.register()
         ThemeSetting.register()
-        /*
-        runCatching {
-            Class.forName("a.g")
-
-        }.onFailure {
-
-        }
-
-         */
 
         //Client
+        CustomFont.register()
         DiscordPresence.register()
         HUDEditor.register()
         InfoHUD.register()
@@ -102,15 +71,6 @@ object ModuleManager : Helper {
         Surround.register()
         TargetStrafe.register()
         TotemPopCounter.register()
-        /*
-        runCatching {
-            Class.forName("a.x")
-
-        }.onFailure {
-
-        }
-
-         */
         ZealotCrystalPlus.register()
 
         //Misc
@@ -118,7 +78,7 @@ object ModuleManager : Helper {
         AntiCrasher.register()
         AntiWeather.register()
         AutoFish.register()
-//        AutoObsidian.register()
+        AutoObsidian.register()
         AutoPorn.register()
         AutoReconnect.register()
         AutoRespawn.register()
@@ -137,7 +97,7 @@ object ModuleManager : Helper {
 
         //Movement
         AntiHunger.register()
-//        AntiLevitation.register()
+        AntiLevitation.register()
         AntiWeb.register()
         AutoCenter.register()
         AutoJump.register()
@@ -159,7 +119,7 @@ object ModuleManager : Helper {
         Speed.register()
         Sprint.register()
         Step.register()
-//        Strafe.register()
+        Strafe.register()
         Velocity.register()
 
         //Player
@@ -225,30 +185,6 @@ object ModuleManager : Helper {
             }
         }
 
-
-        /*
-        runCatching {
-            Class.forName("a.c")
-        }.onFailure {
-            hudModules.forEach {
-                it.name = "ZealotCrystal"
-            }
-            modules.forEach {
-                it.name = "ZealotCrystal"
-            }
-
-            runBlocking {
-                Wrapper.mc.world = null
-                Wrapper.mc.player = null
-            }
-
-
-            EventBus.registered.clear()
-            EventBus.registeredParallel.clear()
-            EventBus.subscribed.clear()
-            EventBus.subscribedParallel.clear()
-        }
-         */
     }
 
     fun getModulesByCategory(category: Category): List<AbstractModule> {

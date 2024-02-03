@@ -1,19 +1,17 @@
 package club.eridani.epsilon.client.util.graphics.font
 
 import club.eridani.epsilon.client.util.ColorRGB
-import club.eridani.epsilon.client.util.graphics.HAlign
-import club.eridani.epsilon.client.util.graphics.VAlign
-import club.eridani.epsilon.client.util.graphics.font.renderer.MainFontRenderer
 import club.eridani.epsilon.client.util.math.Vec2d
-import org.lwjgl.opengl.GL11.*
+import club.eridani.epsilon.client.util.graphics.font.renderer.MainFontRenderer
+import net.minecraft.client.renderer.GlStateManager
 import kotlin.math.max
 
 /**
  * Renders multi line text easily
  */
-class TextComponent(val separator: String = " ") {
+class TextComponent(private val separator: String = " ") {
     private val textLines = ArrayList<TextLine?>()
-    var currentLine = 0
+    private var currentLine = 0
         set(value) {
             field = max(value, 0)
         } // Can not be smaller than 0
@@ -87,33 +85,33 @@ class TextComponent(val separator: String = " ") {
      * Draws all lines in this component
      */
     fun draw(
-        pos: Vec2d = Vec2d(0.0, 0.0),
+        pos: Vec2d = Vec2d.ZERO,
         lineSpace: Int = 2,
         alpha: Float = 1.0f,
         scale: Float = 1f,
         skipEmptyLine: Boolean = true,
-        horizontalAlign: HAlign = HAlign.LEFT,
-        verticalAlign: VAlign = VAlign.TOP
+        horizontalAlign: club.eridani.epsilon.client.util.graphics.HAlign = club.eridani.epsilon.client.util.graphics.HAlign.LEFT,
+        verticalAlign: club.eridani.epsilon.client.util.graphics.VAlign = club.eridani.epsilon.client.util.graphics.VAlign.TOP
     ) {
         if (isEmpty()) return
 
-        glPushMatrix()
-        glTranslated(pos.x, pos.y - 1.0, 0.0)
-        glScalef(scale, scale, 1f)
+        GlStateManager.pushMatrix()
+        GlStateManager.translate(pos.x, pos.y - 1.0, 0.0)
+        GlStateManager.scale(scale, scale, 1f)
 
-        if (verticalAlign != VAlign.TOP) {
+        if (verticalAlign != club.eridani.epsilon.client.util.graphics.VAlign.TOP) {
             var height = getHeight(lineSpace)
-            if (verticalAlign == VAlign.CENTER) height /= 2
-            glTranslatef(0f, -height, 0f)
+            if (verticalAlign == club.eridani.epsilon.client.util.graphics.VAlign.CENTER) height /= 2
+             GlStateManager.translate(0f, -height, 0f)
         }
 
         for (line in textLines) {
             if (skipEmptyLine && (line == null || line.isEmpty())) continue
             line?.drawLine(alpha, horizontalAlign)
-            glTranslatef(0f, (MainFontRenderer.getHeight() + lineSpace), 0f)
+             GlStateManager.translate(0f, (MainFontRenderer.getHeight() + lineSpace), 0f)
         }
 
-        glPopMatrix()
+        GlStateManager.popMatrix()
     }
 
     fun isEmpty() = textLines.firstOrNull { it?.isEmpty() == false } == null
@@ -139,13 +137,13 @@ class TextComponent(val separator: String = " ") {
             updateCache()
         }
 
-        fun drawLine(alpha: Float, horizontalAlign: HAlign) {
-            glPushMatrix()
+        fun drawLine(alpha: Float, horizontalAlign: club.eridani.epsilon.client.util.graphics.HAlign) {
+            GlStateManager.pushMatrix()
 
-            if (horizontalAlign != HAlign.LEFT) {
+            if (horizontalAlign != club.eridani.epsilon.client.util.graphics.HAlign.LEFT) {
                 var width = getWidth()
-                if (horizontalAlign == HAlign.CENTER) width /= 2.0f
-                glTranslatef(-width, 0f, 0f)
+                if (horizontalAlign == club.eridani.epsilon.client.util.graphics.HAlign.CENTER) width /= 2.0f
+                 GlStateManager.translate(-width, 0f, 0f)
             }
 
             for (textElement in textElementList) {
@@ -153,10 +151,14 @@ class TextComponent(val separator: String = " ") {
                 color = color.alpha((color.a * alpha).toInt())
                 MainFontRenderer.drawString(textElement.text, color = color)
                 val adjustedSeparator = if (separator == " ") "  " else separator
-                glTranslatef(MainFontRenderer.getWidth(textElement.text + adjustedSeparator), 0f, 0f)
+                 GlStateManager.translate(
+                    MainFontRenderer.getWidth(textElement.text) + MainFontRenderer.getWidth(adjustedSeparator),
+                    0f,
+                    0f
+                )
             }
 
-            glPopMatrix()
+            GlStateManager.popMatrix()
         }
 
         fun getWidth(): Float {
@@ -174,7 +176,7 @@ class TextComponent(val separator: String = " ") {
         }
     }
 
-    class TextElement(textIn: String, val color: ColorRGB = ColorRGB(255, 255, 255), val style: Style = Style.REGULAR) {
+    class TextElement(textIn: String, val color: ColorRGB = ColorRGB(255, 255, 255), style: Style = Style.REGULAR) {
         val text = "${style.code}$textIn"
 
         override fun toString(): String {

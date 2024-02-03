@@ -1,11 +1,13 @@
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import org.spongepowered.asm.gradle.plugins.MixinExtension
+import javax.security.auth.login.Configuration
 
 val library: Configuration by configurations.creating
 val kotlinVersion: String by project
 val kotlinxCoroutineVersion: String by project
-val modGroup: String by extra
-val modVersion: String by extra
+val modGroup: String by project
+val modVersion: String by project
+val kmogusVersion: String by project
 
 group = modGroup
 version = modVersion
@@ -15,17 +17,19 @@ buildscript {
         mavenCentral()
         maven("https://maven.minecraftforge.net/")
         maven("https://repo.spongepowered.org/maven/")
+        maven("https://maven.luna5ama.dev/")
     }
 
     dependencies {
         classpath("net.minecraftforge.gradle:ForgeGradle:4.+")
-        classpath("org.spongepowered:mixingradle:0.7-SNAPSHOT")
+        classpath("org.spongepowered:mixin:0.7.11-SNAPSHOT")
     }
 }
 
 plugins {
     java
     kotlin("jvm") version "1.9.20"
+    id("dev.luna5ama.kmogus-struct-plugin") apply false
 }
 
 apply {
@@ -58,6 +62,12 @@ dependencies {
     library(kotlin("reflect", kotlinVersion))
     library(kotlin("stdlib-jdk8", kotlinVersion))
     library("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutineVersion")
+
+    library("dev.luna5ama:kmogus-core:$kmogusVersion")
+    library("dev.luna5ama:kmogus-struct-api:$kmogusVersion")
+    library(project(":structs"))
+
+    library("dev.fastmc:fastmc-common:1.1-SNAPSHOT:java8")
 
     library("org.joml:joml:1.10.5")
     library(fileTree("lib"))

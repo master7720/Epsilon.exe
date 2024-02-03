@@ -4,24 +4,13 @@ import club.eridani.epsilon.client.util.ColorRGB
 
 interface IFontRenderer {
     fun drawString(
-        string: String,
+        charSequence: CharSequence,
         posX: Float = 0.0f,
         posY: Float = 0.0f,
-        color: ColorRGB,
+        color: ColorRGB = ColorRGB(255, 255, 255),
         scale: Float = 1.0f,
-        drawShadow: Boolean = false,
-        splitting: Boolean = false
+        drawShadow: Boolean = true
     )
-
-    fun drawStringWithShadow(
-        string: String,
-        posX: Float = 0.0f,
-        posY: Float = 0.0f,
-        color: ColorRGB,
-        scale: Float = 1.0f
-    ) {
-        drawString(string, posX, posY, color, scale, true)
-    }
 
     fun getHeight(): Float {
         return getHeight(1.0f)
@@ -29,11 +18,11 @@ interface IFontRenderer {
 
     fun getHeight(scale: Float): Float
 
-    fun getWidth(text: String): Float {
+    fun getWidth(text: CharSequence): Float {
         return getWidth(text, 1.0f)
     }
 
-    fun getWidth(text: String, scale: Float): Float
+    fun getWidth(text: CharSequence, scale: Float): Float
 
     fun getWidth(char: Char): Float {
         return getWidth(char, 1.0f)

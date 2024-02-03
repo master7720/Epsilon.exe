@@ -13,15 +13,17 @@ import club.eridani.epsilon.client.notification.NotificationManager
 import club.eridani.epsilon.client.util.Logger
 import club.eridani.epsilon.client.util.ScaleHelper
 import club.eridani.epsilon.client.util.TpsCalculator
-import club.eridani.epsilon.client.util.Wrapper
 import club.eridani.epsilon.client.util.graphics.ProjectionUtils
 import club.eridani.epsilon.client.util.graphics.RenderUtils3D
 import club.eridani.epsilon.client.util.graphics.ResolutionHelper
-import club.eridani.epsilon.client.util.graphics.font.renderer.IconRenderer
 import club.eridani.epsilon.client.util.graphics.font.renderer.MainFontRenderer
 import club.eridani.epsilon.client.util.graphics.shaders.WindowBlurShader
 import net.minecraftforge.fml.common.Mod
+import org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY
 import org.lwjgl.opengl.Display
+import org.apache.logging.log4j.LogManager
+import java.io.File
+import javax.swing.Action.NAME
 
 @Mod(
     modid = Epsilon.MOD_ID,
@@ -47,8 +49,12 @@ class Epsilon
 
         var isReady = false
 
-        fun preInit()
-        {
+        @JvmField
+        val logger: org.apache.logging.log4j.Logger? = LogManager.getLogger(NAME)//stupid way to do it
+
+        @Suppress("UNUSED_PARAMETER")
+        @Mod.EventHandler
+        fun postInit() {
             Logger.info("Pre initializing Epsilon")
             Display.setTitle("$MOD_NAME $VERSION")
             ModuleManager
@@ -56,12 +62,14 @@ class Epsilon
             TextManager.readText()
             TextManager.setText()
             MainFontRenderer
-            IconRenderer
             Fonts
         }
 
-        fun postInit()
-        {
+            @Suppress("UNUSED_PARAMETER")
+            @Mod.EventHandler
+            fun preInit() {
+                val directory = File("${DIRECTORY}/")
+                if (!directory.exists()) directory.mkdir()
             Logger.info("Post initializing Epsilon")
             ConfigManager.loadAll(true)
             RootGUI.disable(notification = false, silent = true)

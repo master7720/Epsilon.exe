@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11.glGenTextures
 
 abstract class AbstractTexture {
 
-    var textureID: Int = -1; private set
+    var textureID: Int = -1;
 
     abstract val width: Int
     abstract val height: Int
