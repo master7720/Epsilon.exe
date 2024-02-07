@@ -1,22 +1,20 @@
 package club.eridani.epsilon.client.util.graphics.font.renderer
 
-import club.eridani.epsilon.client.Epsilon
-import club.eridani.epsilon.client.module.client.CustomFont
+import club.eridani.epsilon.client.module.setting.FontSetting
 import club.eridani.epsilon.client.util.ColorRGB
 import club.eridani.epsilon.client.util.ColorUtils
+import club.eridani.epsilon.client.util.Logger
 import club.eridani.epsilon.client.util.graphics.GlStateUtils
-import org.lwjgl.opengl.GL20.glUseProgram
 import java.awt.Font
 
 object MainFontRenderer : IFontRenderer {
+
     private var delegate: ExtendedFontRenderer
-    private val defaultFont: Font
+
+    private val defaultFont: Font = Font("Microsoft YaHei UI Regular", Font.PLAIN, 64)
+//    private val defaultFont: Font = Font.createFont(Font.TRUETYPE_FONT, MainFontRenderer.javaClass.getResourceAsStream("/assets/minecraft/fonts/sfuiregular.ttf")).deriveFont(64f).deriveFont(Font.PLAIN)
 
     init {
-        this.javaClass.getResourceAsStream("/assets/epsilon/fonts/LexendDeca-Regular.ttf").use {
-            defaultFont = Font.createFont(Font.TRUETYPE_FONT, it)
-        }
-
         delegate = loadFont()
     }
 
@@ -27,13 +25,14 @@ object MainFontRenderer : IFontRenderer {
 
     private fun loadFont(): ExtendedFontRenderer {
         val font = try {
-            if (CustomFont.isDefaultFont) {
+            if (FontSetting.isDefaultFont) {
                 defaultFont
             } else {
-                Font(CustomFont.fontName.value, Font.PLAIN, 64)
+                Font(FontSetting.font.value.fontName, Font.PLAIN, 64)
             }
         } catch (e: Exception) {
-            Epsilon.logger?.warn("Failed loading main font. Using Sans Serif font.", e)
+            Logger.warn("Failed loading main font. Using Sans Serif font.")
+            e.printStackTrace()
             AbstractFontRenderer.getSansSerifFont()
         }
 
@@ -47,21 +46,18 @@ object MainFontRenderer : IFontRenderer {
         GlStateUtils.alpha(false)
         drawString(string, posX, posY - 1.0f, ColorRGB(ColorUtils.argbToRgba(adjustedColor)), scale, drawShadow)
         GlStateUtils.alpha(true)
-        glUseProgram(0)
     }
 
-    override fun drawString(
-        charSequence: CharSequence,
-        posX: Float,
-        posY: Float,
-        color: ColorRGB,
-        scale: Float,
-        drawShadow: Boolean
-    ) {
-        delegate.drawString(charSequence, posX, posY, color, scale, drawShadow)
+    fun drawCenteredString(string: String, posX: Float, posY: Float, color: ColorRGB, scale: Float, drawShadow: Boolean) {
+        val width: Float = getWidth(string, scale) / 2
+        delegate.drawString(string, posX - width, posY, color, scale, drawShadow)
     }
 
-    override fun getWidth(text: CharSequence, scale: Float): Float {
+    override fun drawString(string: String, posX: Float, posY: Float, color: ColorRGB, scale: Float, drawShadow: Boolean, splitting: Boolean) {
+        delegate.drawString(string, posX, posY, color, scale, drawShadow, splitting)
+    }
+
+    override fun getWidth(text: String, scale: Float): Float {
         return delegate.getWidth(text, scale)
     }
 
@@ -71,27 +67,7 @@ object MainFontRenderer : IFontRenderer {
 
     override fun getHeight(scale: Float): Float {
         return delegate.run {
-            regularGlyph.fontHeight * CustomFont.lineSpace * scale
+            regularGlyph.fontHeight * FontSetting.lineSpace * scale
         }
-    }
-
-    private class DelegateFontRenderer(font: Font) : ExtendedFontRenderer(font, 64.0f, 2048) {
-        override val sizeMultiplier: Float
-            get() = CustomFont.size
-
-        override val baselineOffset: Float
-            get() = CustomFont.baselineOffset
-
-        override val charGap: Float
-            get() = CustomFont.charGap
-
-        override val lineSpace: Float
-            get() = CustomFont.lineSpace
-
-        override val lodBias: Float
-            get() = CustomFont.lodBias
-
-        override val shadowDist: Float
-            get() = 5.0f
     }
 }

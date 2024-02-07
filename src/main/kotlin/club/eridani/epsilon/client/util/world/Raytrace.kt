@@ -50,6 +50,7 @@ fun World.rayTrace(
     @Suppress("UNNECESSARY_SAFE_CALL")
     when (val action = function.invoke(blockPos, startBlockState)) {
         RayTraceAction.Null -> return null
+        RayTraceAction.Skip -> return null
         RayTraceAction.Calc -> startBlockState.raytrace(this, blockPos, currentX, currentY, currentZ, endX, endY, endZ)?.let { return it }
         is RayTraceAction.Result -> return action.rayTraceResult
         RayTraceAction.Skip -> return null //bad way to fix this idc
@@ -134,6 +135,7 @@ fun World.rayTrace(
         @Suppress("UNNECESSARY_SAFE_CALL")
         when (val action = function.invoke(blockPos, blockState)) {
             RayTraceAction.Null -> return null
+            RayTraceAction.Skip -> return null
             RayTraceAction.Calc -> blockState.raytrace(this, blockPos, currentX, currentY, currentZ, endX, endY, endZ)?.let { return it }
             is RayTraceAction.Result -> return action.rayTraceResult
             RayTraceAction.Skip -> return null //bad way to fix this idc
